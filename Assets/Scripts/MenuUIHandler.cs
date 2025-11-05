@@ -14,6 +14,9 @@ public class MenuUIHandler : MonoBehaviour
     public TMP_InputField playerInput;
     public void StartNew()
     {
+        string playerName = playerInput.text;
+
+        MenuManager.Instance.SetPlayerName(playerName);
         SceneManager.LoadScene(1);
     }
 
@@ -28,6 +31,7 @@ public class MenuUIHandler : MonoBehaviour
 
     private void Start()
     {
-        MainManager.Instance.playerName = playerInput.text;
     }
+
+
 }

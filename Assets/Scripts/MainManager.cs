@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
 
     private bool m_Started = false;
@@ -18,22 +19,12 @@ public class MainManager : MonoBehaviour
 
     private bool m_GameOver = false;
 
-    public static MainManager Instance;
-
-    public string playerName;
-
     private void Awake()
     {
-        if (Instance != null)
+        if (MenuManager.Instance != null)
         {
-            Destroy(gameObject);
-            return;
+            BestScoreText.text = "Best Score: " + MenuManager.Instance.bestPlayerName + " " + MenuManager.Instance.bestScore;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        ScoreText.text = "Best Score: " + " Aboba: " + 100;
     }
 
 
@@ -91,5 +82,7 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        MenuManager.Instance.SetBestScore(m_Points, MenuManager.Instance.playerName);
     }
 }
