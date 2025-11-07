@@ -11,6 +11,7 @@ using UnityEditor;
 [DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour
 {
+    public TextMeshProUGUI bestScoreText;
     public TMP_InputField playerInput;
     public void StartNew()
     {
@@ -31,7 +32,6 @@ public class MenuUIHandler : MonoBehaviour
 
     private void Start()
     {
+        bestScoreText.text = "Best Score: " + MenuManager.Instance.bestPlayerName + " : " + MenuManager.Instance.bestScore;
     }
-
-
 }

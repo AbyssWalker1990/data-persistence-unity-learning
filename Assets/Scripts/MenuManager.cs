@@ -1,7 +1,39 @@
+using System.IO;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+
+    [System.Serializable]
+    class SaveData
+    {
+        public string BestPlayerName;
+        public int BestScore;
+    }
+
+    public void SavePlayerData()
+    {
+        SaveData data = new SaveData();
+        data.BestPlayerName = bestPlayerName;
+        data.BestScore = bestScore;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "savefile.json", json);
+    }
+
+    public void LoadPlayerData()
+    {
+        string path = Application.persistentDataPath + "savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            bestPlayerName = data.BestPlayerName;
+            bestScore = data.BestScore;
+        }
+    }
     public static MenuManager Instance;
 
     public string playerName;
@@ -11,8 +43,6 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake MainManager");
-        Debug.Log("Player Name: " + playerName);
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -21,6 +51,8 @@ public class MenuManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        LoadPlayerData();
     }
 
     public void SetPlayerName(string name)
